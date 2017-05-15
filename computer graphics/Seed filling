@@ -1,0 +1,182 @@
+package project;
+import java.awt.*;
+import java.applet.*;
+import java.awt.image.ImageProducer;
+import java.awt.image.MemoryImageSource;
+import java.util.Stack;
+public  class draw extends Applet //////////////////////
+{
+	private static final long serialVersionUID = 1L;
+	int red=Color.red.getRGB();
+	int  y,ymax,ymin,w=200,h=200;
+	Image image;
+	int  pixels[]=new int[40000];
+	double x;
+	double dy,dx;
+	Point []p=new Point[10];
+	public void init()//
+	{
+		
+		p[0]=new Point(35,10);
+		p[1]=new Point(11,80);
+		p[2]=new Point(11,164);
+		p[3]=new Point(59,130);
+		p[4]=new Point(160,180);
+		p[5]=new Point(168,50);
+		p[6]=new Point(130,20);
+		p[7]=p[0];  //new Point(35,10);
+		myBoundary();
+		//Boundary();
+		image=scan(new Point(100,100),0,red);
+		//image=this.interior();
+	}
+	public void myBoundary()
+	{
+		for(int i=0;i<7;i++)
+			dda(p[i].x,p[i].y,p[i+1].x,p[i+1].y);
+		ImageProducer ip=new MemoryImageSource(w,h,pixels,0,w);
+	   	image=createImage(ip);
+	}
+	void dda( int x1, int y1, int x2, int y2)
+	{
+		int k;
+		float x, y, dx, dy;
+		k = Math.abs(x2 - x1);
+		if(Math.abs(y2 - y1) > k)
+			k = Math.abs(y2 - y1);
+		dx = (float)(x2 - x1)/k;
+		dy = (float)(y2 - y1)/k;
+		x = (float)x1;
+		y = (float)y1;
+		
+		for(int i = 0;i < k;i++)
+		{
+			pixels[(int)(y + .5f)*w + (int)(x + .5f)] = red;
+			//g.drawLine((int)(x + .5f), (int)(y + .5f), (int)(x + .5f), (int)(y + .5f));
+			x = x + dx;
+			y = y + dy;
+		}
+	}
+	public Image boundary()//
+	{
+	   	for(int i=0;i<7;i++){
+		   dy=p[i+1].y-p[i].y;     
+		   if(dy!=0){
+			   dx=(p[i+1].x-p[i].x)/dy;}
+		   if(dy>0) x=p[i].x;
+		   else  x=p[i+1].x;
+		   ymax=(Math.max(p[i].y,p[i+1].y));
+		   ymin=(Math.min(p[i].y,p[i+1].y));
+		   for(y=ymin+1;y<=ymax;y++){
+			   x=x+dx;
+			   if(pixels[y*w+(int)(x+0.5)]==red)
+				   pixels[y*w+(int)(x+0.5)+1]=red;//保证是偶数
+			   else
+				   pixels[y*w+(int)(x+0.5)]=red;
+		   }
+	   	}
+	   	ImageProducer ip=new MemoryImageSource(w,h,pixels,0,w);
+	   	image=createImage(ip);
+	   	return image;
+	}
+	public Image scan(Point point,int old_color,int new_color)
+	{
+		int boundary_color=Color.red.getRGB();
+		int x,y,savex,xright,xleft;
+		Point p;
+		Stack<Point> stack=new Stack();
+		stack.push(point);
+		boolean span_need_fill=false;
+		int cnt=1;
+		while(!stack.empty())
+		{
+			//if(cnt>200) break;
+			p=(Point)(stack.pop());
+			x=p.x;y=p.y;
+			System.out.println((cnt++) +": "+x+"   "+y);
+			savex=x;
+			while(pixels[y*w+x]!=boundary_color)
+			{
+				pixels[y*w+x]=new_color;
+				x++;
+			}
+			xright=x-1;
+			x=savex-1;
+			while(pixels[y*w+x]!=boundary_color)
+			{
+				pixels[y*w+x]=new_color;
+				x--;
+				if(y*w+x<=0) break; 
+			}
+			xleft=x+1;
+			x=xleft;
+			y=y+1;
+			while(x<=xright)
+			{
+				span_need_fill=false;
+				while(pixels[w*y+x]==old_color && x<=xright)
+				{
+					span_need_fill=true;
+					x++;
+				}
+				if(span_need_fill)
+				{
+					p=new Point(x-1,y);
+					stack.push(p);
+					span_need_fill=false;
+				}
+				while(pixels[y*w+x]!=old_color && x<=xright) x++;
+			}
+			x=xleft;
+			y-=2;
+			if(y<0) y=0;
+			while(x<=xright)
+			{
+				span_need_fill=false;
+				while(w*y+x>=0 && w*y+x<39999 && pixels[w*y+x]==old_color )
+				{
+					span_need_fill=true;
+					x++;
+					if(w*y+x>=39999|| w*y+x<0) break;
+				}
+				if(span_need_fill)
+				{
+					p=new Point(x-1,y);
+					stack.push(p);
+					span_need_fill=false;
+				}
+				while( (y*w+x>0)&&(y*w+x<39999)&&pixels[y*w+x]!=old_color &&x<=xright) x++;
+			}
+		}
+		ImageProducer ip=new MemoryImageSource(w,h,pixels,0,w);
+	    image=createImage(ip);
+	    return image;
+	}
+	public Image interior() //
+	{
+      Image image;
+      int maxx=168,minx=11,maxy=180,miny=10,l;
+      int flag;
+      for(y=miny-1;y<maxy;y++)
+      {
+    	  flag=0;
+    	  for(x=minx-1;x<maxx;x++)//////
+    	  {
+    		  l=pixels[y*w+(int)x];
+    		  if(l==red)
+    		  {
+    			  if(flag==0) flag=1;
+    			  else flag=0;
+    		  }
+    		  if(flag==1) pixels[y*w+(int)x]=red;
+    	  }
+      }
+      ImageProducer ip=new MemoryImageSource(w,h,pixels,0,w);
+      image=createImage(ip);
+      return image;
+    }
+    public void paint(Graphics g)
+    {
+        g.drawImage(image, 0, 0, null);
+    }
+ }
