@@ -1,0 +1,15 @@
+I=imread('E:/pic1.jpg');%读入图像  
+J=rgb2gray(I);%将图像转换为灰度图  
+K=fft2(J);%对图像进行二维快速傅里叶变换  
+K=fftshift(K);%将频谱转移到中心，其实就是在傅里叶变换时乘以了某个因子  
+L=abs(K/256);%取模  
+%显示图片  
+figure;  
+subplot(141);  
+imshow(I);title('原图像')  
+subplot(142);  
+imshow(J);title('被转换为灰度图后')  
+subplot(143);  
+imshow(uint8(L));title('二维傅里叶变换后的频谱图')
+subplot(144);  
+imshow(uint8(K));title('二维傅里叶变换后的图像')
