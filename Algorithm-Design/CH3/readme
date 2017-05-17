@@ -1,0 +1,8 @@
+课件第三讲的代码
+主要是dp部分
+1.数塔 dp[i][j]=max(dp[i-1][j],dp[i-1][j+1])+a[i][j];
+2.矩阵连乘
+3.最长公共子序列 dp[i][j]= s1[i]==s2[j] ? dp[i-1][j-1]+1 : max(dp[i][j-1],dp[i-1][j]) ;
+4.01背包      dp[j]=max(dp[j],dp[j-w[i]]+v[i]);
+5.最大子段和   dp[i]=max(0,dp[i-1]+a[i]); ans=max(dp[i]);
+6.最优BST
