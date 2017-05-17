@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define N 100
+#define N 100 
 
 /*
  *将在数组中保存的字符串转成数字存到int数组中
