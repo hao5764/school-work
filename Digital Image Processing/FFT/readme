@@ -6,3 +6,8 @@
 好像是因为变成频域后
 可以观察出一些噪声的分布，直接把对应的噪声的函数系数变成0
 就可以达到去噪的效果了
+
+附上一个很棒的博客 代码什么的都有
+http://www.cnblogs.com/tenderwx/p/5245859.html
+还有一个对图像进行变换的博客 也很好
+http://www.blogbus.com/jingxinchenlan-logs/61469233.html
