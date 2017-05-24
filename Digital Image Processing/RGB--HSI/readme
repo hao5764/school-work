@@ -10,7 +10,7 @@
 于是 采用一些复杂的数学推导，得到了用RGB-> HSI模型的转换
 
 ![image](https://github.com/hao5764/school-work/Digital Image Processing/RGB--HSI/HSI.jpg)
-![image](https://github.com/hao5764/school-work/Digital%20Image%20Processing/RGB--HSI/HSI.jpg)
+![image](https://github.com/hao5764/school-work/blob/master/Digital%20Image%20Processing/RGB--HSI/HSI.jpg)
 
 代码是从http://ask.csdn.net/questions/187599参考的
 
