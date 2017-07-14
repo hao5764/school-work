@@ -1,0 +1,89 @@
+Python中的正则表达式
+正则表达式（regular expression）是一种用于匹配文本形式的强大逻辑表达式，在 Python 中的 re 模组提供了正则表达式的支持。
+正则表达式由一些普通字符和一些元字符（metacharacters）组成。普通字符包括大小写的字母和数字，而元字符则具有特殊的含义。
+
+什么是正则表达式
+元字符 . ^ $ * + ? { [ ] \ | ( )
+.会匹配除了换行以外的任何字符
+\w等价于[a-zA-Z0-9_]会匹配单一字母字符数字下划线
+\W则会匹配任何非字母 数字 下划线的单一字符
+\b会匹配 “单一字母 数字和下划线字符”和“任何非单一字母 数字和下划线字符”之间的边界
+\s等价于[\n \r \t \f]会匹配一个空白字符（包括空格 换行 返回 制表 表格）
+\S则匹配所有非空白字符
+\t \n \r依次用于匹配制表符 换行符 返回符
+\d等价于[0-9]用于匹配十进制表示的数字
+^作为开始标记
+$作为结束标记 分别用于标记一个字符串的开始和结束的位置
+\用于一些字符的转移 \.表示对一个真实点字符的匹配 \\表示对一个真实反斜杠的匹配
+
+正则表达式查找
+正则表达式前的r标记了这个表达式不需要被转义处理，\n不会理解为换行
+import re
+str = 'A cute word:cat!!'
+match=re.search(r'word:\w\w\w',str)
+if match:
+    print 'found',match.group()
+ 
+基础正则使用
+import re
+print re.search(r'..g','piiig').group()
+print re.search(r'\d\d\d','pig123').group()
+print re.search(r'\w\w\w','@@abcd!!').group()
+
+正则表达式重复
+* +来实现重复多次的形式的表达
+*表示0或者更多吃的重复 +表示1或者更多次的重复
+import re
+print re.search(r'pi+','piiig').group()  piii
+print re.search(r'pi*','pg').group()     p
+print re.search(r'pi*','piiig').group()  piii
+print re.search(r'pi+','pg').group()     no ans
+
+正则里的方括号
+[]:将一系列的正则字符以“或”的关系组织在一起
+还可以采用横线来表示一个范围
+import re
+print re.search(r'[abc]+','xxxacbbcbbadddedede').group() 连续的abc组成的字符串 acbbcbba
+print re.search(r'[a-d]+','xxxacbbcbbadddedede').group() 连续的abcd组成的字符串 acbbcbbaddd
+
+正则提取
+对于一个正则表达式的匹配过程，我们可以在其中添加几对圆括号，用于指定几个具体的匹配的部分
+import re
+str = 'purple alice-b@jisuanke.com monkey dishwasher'
+match=re.search('([\w.-]+)@([\w.-]+)',str)
+if match:
+    print match.group()
+    print match.group(1)
+    print match.group(2)
+这个.加了不加区别不大  不知道作用是什么
+alice-b@jisuanke.com                                                       
+alice-b                                                                    
+jisuanke.com 
+
+正则表达式的调试
+
+查找所有方法
+import re
+str = 'purple alice@jisuanke.com, blah monkey bob@abc.com blah dishwasher'
+tuples=re.findall(r'([\w\.-]+)@([\w\.-]+)',str)
+print tuples
+
+f = open('test.txt', 'r')
+users = re.findall(r'<li><span class="name">([\w]+)</span>([\w]+@[\w\.-]+)</li>', f.read())
+for user in users:
+    print user,
+    <ul><li><span class="name">Bob</span>bob@jisuanke.com</li><li><span class="name">ALice</span>alice@gmail.com</li><li><span class="name">Cane</span>cane.tec@bob.com</li></ul>
+    
+选项与贪心匹配
+re.search(pat,str,re.IGNORECASE)忽略大小写
+DOTALL允许.去跨行匹配 .*可以进行跨行匹配
+MULTILINE 对于一个多行文本组成的字符串^和$将用于匹配每一行的开始和结束，没有时，^ $只会匹配整个字符串的开始和结束
+贪心匹配
+<b>foo</b> and <i>so on</i>
+希望用(<.*>)提取HTML标签
+因为贪心 所以结果是<b>foo</b> and <i>so on</i>
+加上？使之不贪心
+<.*?> 输出<b></b> <i></i>
+
+
+
