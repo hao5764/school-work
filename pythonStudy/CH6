@@ -79,3 +79,36 @@ print >> fd,string
 import codecs 
 fd = codecs.open('foo.txt', 'rU', 'utf-8')
 只可用fd.write() 不能print >>
+
+两数之和
+n=input()
+arr=[]
+for x in raw_input().split():  
+    arr.append(int(x))
+target=input()
+ff=0
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        if arr[i-1]+arr[j-1]==target and i<j:
+            print i,j
+            ff=1
+            break
+        if ff==1:
+            break
+
+统计字符个数
+s=raw_input()
+zimu=0
+num=0
+sap3=0
+el=0
+for x in s:
+    if x.isalpha():
+        zimu+=1;
+    elif x.isdigit():
+        num+=1;
+    elif x==' ':
+        sap3+=1;
+    else:
+        el+=1;
+print zimu,num,sap3,el
