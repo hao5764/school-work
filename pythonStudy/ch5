@@ -1,0 +1,77 @@
+简单的排序
+numbers = [1, 4, 2, 3, 8, 3, 0]
+numbers.sort()
+print numbers
+x=numbers.sort()
+print x
+
+基本的排序
+numbers = [1, 4, 2, 3, 8, 3, 0]
+print sorted(numbers)
+print sorted(numbers,reverse=True)
+
+个性化排序
+def china_first(item):
+    if item == 'China':
+        return 0
+    else:
+        return len(item)
+country = ['jp', 'China', 'USA', 'Thai']
+print sorted(country,key=len)
+print sorted(country,key=china_first)
+
+元组（tuple）
+结构体 大小固定 有逻辑性
+函数多个返回值可用元组形式返回
+空元组（） 
+一个元素 （‘hi’,）不加，会被认为表达式
+
+元组的使用
+tuple = (1, 2, 'hi')
+print len(tuple)
+print tuple[2]
+tuple=(1,2,'bey')#内容不可替换 只能重建
+print tuple
+
+用元组做返回值
+def plus_one(tuple):
+    return tuple[0] + 1, tuple[1] + 1, tuple[2] + 1
+
+t = (1, 4, -1)
+(x,y,z)=plus_one(t)
+print x
+print y,z
+
+交叉排序
+list=[]  
+for x in raw_input().split():  
+    list.append(int(x))
+cnt=len(list)
+list1=[]
+list2=[]
+list3=[]
+for i in range(1,cnt+1):
+    if (i%3!=0 and i%2==0):
+        list1.append(list[i-1])
+    elif (i %3==0):
+        list2.append(list[i-1])
+    else:
+        list3.append(list[i-1])
+list1=sorted(list1)
+list2=sorted(list2,reverse=True)
+list4=[]
+a1=0
+a2=0
+a3=0;
+for i in range(1,cnt+1):
+    if (i%3!=0 and i%2==0):
+        list4.append(list1[a1])
+        a1=a1+1
+    elif (i %3==0):
+        list4.append(list2[a2])
+        a2=a2+1
+    else:
+        list4.append(list3[a3])
+        a3=a3+1
+for i in range(0,cnt):
+    print list4[i],#加一个逗号 就可不换行
