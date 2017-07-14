@@ -1,0 +1,81 @@
+Python字典与文件
+在 Python 中有一个将“名字”和“值”进行配对的结构，叫做字典。就像是一个生活中的字典的每一个词有一个具体的解释一样，
+Python 中的字典也包括了一系列的类似的配对，我们称之为键值对。
+
+什么是字典
+将名字雨值进行配对的结构，叫做字典
+健值对
+键名：键值
+{}包裹健值对的集合
+dict={'key1':100 , 'key2':200 ,}
+print dict['key']
+dict['key']=999
+
+使用字典
+bat = {} 
+bat['b'] = 'baidu' 
+bat['a'] = 'alibaba' 
+bat['t'] = 'tencent'
+print bat
+print bat['a']
+bat['a']='amazon'
+print bat['a']
+print 'b' in bat
+print 'x' in bat
+
+查看字典元素
+bat = {'a': 'alibaba', 'b': 'baidu', 't': 'tencent'}
+print bat.keys()//输出键名
+print bat.values()//输出键值
+print bat.items()#输出元组
+
+for 循环打印字典
+bat = {'a': 'alibaba', 'b': 'baidu', 't': 'tencent'}
+for value in bat.values():
+    print value
+for key in bat:
+    print key
+for k,v in bat.items():
+    print k,'>',v
+#keys() iterkeys()
+#values() itervalues()
+#items()  iteritems()
+#类似于 range和xrange
+
+字典数据格式化
+boss = {} 
+boss['name'] = 'robin' 
+boss['age'] = 45
+boss['height'] = 1.78
+print 'The boss named %(name)s is %(age)d-year-old and %(height)g tall.' % boss
+
+删除表达式
+num = 6
+list = ['a', 'b', 'c', 'd']
+dict = {'a': 1, 'b': 2, 'c': 3}
+del list[0]
+del list[-2:]
+print list
+del dict['b']
+print dict
+del num
+print num
+
+文件的使用
+fd=open('filename','r')
+fd.close()
+fd=open('filename','rw')
+# 按行输出整个文件
+f = open('filename', 'rU')
+for line in f:   # 访问文件每一行
+    print line,    # 打印每一行，加逗号可以不被额外添加换行
+fd.readline() fd.read()
+fd.write(字符串)
+print >> fd,string
+
+文件与编码
+已经写好的功能性的包成为模组
+其中有个叫codecs的模组，提供了读取非英文的文件所需要的unicode的读取支持
+import codecs 
+fd = codecs.open('foo.txt', 'rU', 'utf-8')
+只可用fd.write() 不能print >>
